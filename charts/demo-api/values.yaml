@@ -1,0 +1,30 @@
+nameOverride: ""
+
+image:
+  repository: demo-api   # imagen local en Minikube
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8000
+
+replicas:
+  min: 1
+  max: 10
+
+thresholds:
+  rps: 5   # req/s
+  cpu: 80  # %
+
+cooldown: 60
+
+# Etiqueta "release" del kube‑prometheus‑stack (cambia si tu release tiene otro nombre)
+promStackRelease: kube-prom
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi

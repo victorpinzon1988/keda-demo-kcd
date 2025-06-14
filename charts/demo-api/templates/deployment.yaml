@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nameOverride | default .Release.Name }}
+  labels:
+    app: {{ .Values.nameOverride | default .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas.min }}
+  selector:
+    matchLabels:
+      app: {{ .Values.nameOverride | default .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nameOverride | default .Release.Name }}
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}

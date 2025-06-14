@@ -1,0 +1,33 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Values.nameOverride | default .Release.Name }}
+  labels:
+    app: {{ .Values.nameOverride | default .Release.Name }}
+spec:
+  scaleTargetRef:
+    name: {{ .Values.nameOverride | default .Release.Name }}
+  minReplicaCount: {{ .Values.replicas.min }}
+  maxReplicaCount: {{ .Values.replicas.max }}
+  cooldownPeriod: {{ .Values.cooldown }}
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: {{ .Values.cooldown }}
+  triggers:
+    # 1) RPS vía Prometheus
+    - type: prometheus
+      metadata:
+        serverAddress: http://{{ .Values.promStackRelease }}-kube-prometheus-prometheus.monitoring.svc:9090
+        metricName: http_requests_per_second
+        threshold: "{{ .Values.thresholds.rps }}"
+        query: |
+          sum(rate(http_requests_total{pod=~"{{ .Values.nameOverride | default .Release.Name }}.*"}[1m]))
+    # 2) % CPU
+    - type: cpu
+      metadata:
+        # 'type' puede ser 'Utilization' o 'AverageValue'.
+        # Usamos Utilization (porcentaje) para que coincida con 'thresholds.cpu'.
+        type: Utilization
+        value: "{{ .Values.thresholds.cpu }}"

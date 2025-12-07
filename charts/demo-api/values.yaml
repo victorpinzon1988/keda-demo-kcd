@@ -18,7 +18,7 @@ thresholds:
 
 cooldown: 60
 
-# Etiqueta "release" del kube‑prometheus‑stack (cambia si tu release tiene otro nombre)
+# Etiqueta "release" del kube‑prometheus‑stack
 promStackRelease: kube-prom
 
 resources:

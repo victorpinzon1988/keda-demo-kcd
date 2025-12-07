@@ -26,4 +26,4 @@ helm upgrade --install kube-prom prometheus-community/kube-prometheus-stack -n m
   --set grafana.enabled=false \
   --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false
 
-echo "🎉 Entorno listo. Construye la imagen y despliega la API."
+echo "Listo"

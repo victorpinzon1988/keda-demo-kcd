@@ -3,7 +3,7 @@ kind: PodMonitor
 metadata:
   name: {{ .Values.nameOverride | default .Release.Name }}
   labels:
-    release: {{ .Values.promStackRelease }}  # Debe coincidir con el stack Prometheus
+    release: {{ .Values.promStackRelease }} 
 spec:
   selector:
     matchLabels:

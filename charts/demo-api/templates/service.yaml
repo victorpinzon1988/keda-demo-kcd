@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.nameOverride | default .Release.Name }}
   labels:
     app: {{ .Values.nameOverride | default .Release.Name }}
-    release: {{ .Values.promStackRelease }}   # Para que el PodMonitor funcione
+    release: {{ .Values.promStackRelease }} 
 spec:
   selector:
     app: {{ .Values.nameOverride | default .Release.Name }}

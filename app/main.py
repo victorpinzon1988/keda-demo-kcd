@@ -11,7 +11,6 @@ async def root():
 
 @app.get("/work")
 async def work():
-    """Consume CPU between 50 ms and 200 ms to trigger CPU usage."""
     delay = random.uniform(0.05, 0.2)
     end = time.time() + delay
     while time.time() < end:
